@@ -5,9 +5,10 @@ import stream_input
 import stream_output
 
 config: Dict = {
-    "input_pattern": "raw-video/*.mts",
-    "output_template": "video/heads.mp4",
+    "input_pattern": "raw-video/*.MTS",
+    "output_template": "video/scope.mp4",
     "output_seconds": 60,
+    "input_frames": 3,
     "image_blend": 0.2,
     "rotation_increment": 0.08,
     "scaler_steps": 1000,

@@ -26,18 +26,19 @@ def _blend_in(input_image: Image):
 
 
 def process(in_raw: bytes) -> bytes:
-    global _size
+    global _size, _config
     incoming: Image = Image.frombytes("RGB", _size, in_raw)
     try:
         incoming.save("tmp/flat.png")
     finally:
         del incoming
-    scope.render()
-    scope_image: Image = Image.open("tmp/scope.png")
-    try:
-        _blend_in(scope_image)
-    finally:
-        del scope_image
+    for frame in range(0, _config["input_frames"]):
+        scope.render()
+        scope_image: Image = Image.open("tmp/scope.png")
+        try:
+            _blend_in(scope_image)
+        finally:
+            del scope_image
     return _overlay.tobytes()
 
 
@@ -49,6 +50,7 @@ if __name__ == "__main__":
     input_image = Image.open("test-data/test-in.jpg")
     initialise(
         {
+            "input_frames": 1,
             "image_blend": 0.2,
             "scaler_steps": 100,
             "scaler_min": 1.5,
