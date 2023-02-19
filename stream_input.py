@@ -26,9 +26,12 @@ def _probe_attributes():
     global attributes, _filename
     probe = ffmpeg.probe(_filename)
     info = next(s for s in probe["streams"] if s["codec_type"] == "video")
-    aspect = info["display_aspect_ratio"].split(":")
     width = int(info["width"])
     height = int(info["height"])
+    if "display_aspect_ration" in info:
+        aspect = info["display_aspect_ratio"].split(":")
+    else:
+        aspect = (width / height, 1)
     attributes = {
         "width": width,
         "height": height,
