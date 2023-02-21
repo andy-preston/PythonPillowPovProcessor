@@ -12,8 +12,8 @@ _config: Dict
 def initialise(config: Dict, attributes: Dict[str, int]):
     global _config, _fixed_options, _rotation, _log_file
     _config = config
-    flat_scale_x: float = float(attributes["aspect_x"]) * 3.0
-    flat_scale_y: float = float(attributes["aspect_y"]) * 3.0
+    flat_scale_x: float = float(attributes["aspect_x"]) * _config["scope_adjust"]
+    flat_scale_y: float = float(attributes["aspect_y"]) * _config["scope_adjust"]
     _fixed_options = (
         "Display=off",
         "Verbose=off",

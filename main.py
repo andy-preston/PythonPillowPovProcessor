@@ -10,6 +10,9 @@ config: Dict = {
     "output_seconds": 60,
     "input_frames": 3,
     "image_blend": 0.2,
+    # TODO: this should be calculated from the image size
+    # but I'm doing it by trial and error at the moment
+    "scope_adjust": 20.0,
     "rotation_increment": 0.08,
     "scaler_steps": 1000,
     "scaler_min": 1.5,
