@@ -1,5 +1,5 @@
 from PIL import Image
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Callable
 import scope
 
 
@@ -25,7 +25,7 @@ def _blend_in(input_image: Image):
         del blended
 
 
-def process(in_raw: bytes) -> bytes:
+def process(in_raw: bytes, sink: Callable[[bytes], None]):
     global _size, _config
     incoming: Image = Image.frombytes("RGB", _size, in_raw)
     try:
@@ -39,7 +39,7 @@ def process(in_raw: bytes) -> bytes:
             _blend_in(scope_image)
         finally:
             del scope_image
-    return _overlay.tobytes()
+        sink(_overlay.tobytes())
 
 
 def clean_up():
@@ -47,7 +47,7 @@ def clean_up():
 
 
 if __name__ == "__main__":
-    input_image = Image.open("test-data/test-in.jpg")
+    input_image: Image = Image.open("test-data/test-in.jpg")
     initialise(
         {
             "input_frames": 1,
@@ -65,7 +65,10 @@ if __name__ == "__main__":
             "aspect_y": 4,
         },
     )
-    raw = process(input_image.tobytes())
-    output_image = Image.frombytes("RGB", _size, raw)
-    output_image.save("test-data/test-out.jpg")
+
+    def sink(raw: bytes):
+        global _size
+        Image.frombytes("RGB", _size, raw).save("test-data/test-out.jpg")
+
+    process(input_image.tobytes(), sink)
     clean_up()

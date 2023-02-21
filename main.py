@@ -25,8 +25,7 @@ while True:
     in_bytes = stream_input.read()
     if len(in_bytes) == 0:
         break
-    out_bytes = image.process(in_bytes)
-    stream_output.write(out_bytes)
+    image.process(in_bytes, stream_output.write)
 stream_output.close()
 stream_input.close()
 image.clean_up()
