@@ -44,8 +44,8 @@ def _open():
     _file_index = _file_index + 1
     _filename = _file_parts[0] + f"-{_file_index:05d}." + _file_parts[1]
     args = (
-        ffmpeg.input("pipe:", format="rawvideo", pix_fmt="rgb24", crf="0", s=_size_string)
-        .output(_filename, pix_fmt="yuv420p")
+        ffmpeg.input("pipe:", format="rawvideo", pix_fmt="rgb24", s=_size_string)
+        .output(_filename, crf="0", pix_fmt="yuv420p")
         .overwrite_output()
         .compile()
     )
