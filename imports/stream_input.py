@@ -6,20 +6,33 @@ from typing import Dict, Callable
 import ffmpeg
 
 
-class StreamInput:
+class InputQueue:
+    """A list of files to be read by InputStream either in series or parallel"""
+
+    _files: iter
+
+    def __init__(self, glob_pattern: str):
+        file_list = glob.glob(glob_pattern)
+        file_list.sort()
+        self._files = iter(file_list)
+
+    def next(self) -> str:
+        """Give the next filename in the list"""
+        return next(self._files)
+
+
+class InputStream:
     """An input stream from ffmpeg"""
 
     attributes: Dict[str, int]
     _process: subprocess.Popen
     _buffer: bytes
-    _files: iter
     _finished: Callable
     _filename: str
+    _input_queue: InputQueue
 
-    def __init__(self, glob_pattern: str, finished: Callable):
-        fileList = glob.glob(glob_pattern)
-        fileList.sort()
-        self._files = iter(fileList)
+    def __init__(self, input_queue: InputQueue, finished: Callable):
+        self._input_queue = input_queue
         self._finished = finished
         self._process = None
         self._open()
@@ -44,7 +57,7 @@ class StreamInput:
 
     def _open(self):
         self.close()
-        self._filename = next(self._files)
+        self._filename = self._input_queue.next()
         if self._process is None:
             self._probe_attributes()
         args = (

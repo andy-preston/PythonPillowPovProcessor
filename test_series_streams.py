@@ -1,5 +1,5 @@
 """Simple test for the stream modules"""
-from imports.stream_input import StreamInput
+from imports.stream_input import InputStream, InputQueue
 from imports import stream_output
 
 
@@ -14,19 +14,18 @@ def finished_out(filename: str):
 
 
 if __name__ == "__main__":
-    stream_input = StreamInput("raw-video/s1*", finished_in)
+    input_stream = InputStream(InputQueue("raw-video/dock*"), finished_in)
     stream_output.initialise(
         {
             "output_template": "test-data/test.mp4",
             "output_seconds": 60,
         },
-        stream_input.attributes,
+        input_stream.attributes,
         finished_out,
     )
     while True:
-        in_bytes = stream_input.read()
+        in_bytes = input_stream.read()
         if len(in_bytes) == 0:
             break
         stream_output.write(in_bytes)
     stream_output.close()
-    stream_input.close()

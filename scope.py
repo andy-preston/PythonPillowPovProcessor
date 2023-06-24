@@ -2,12 +2,12 @@
 from typing import Dict
 from imports import image
 from imports import logger
-from imports.stream_input import StreamInput
+from imports.stream_input import InputStream, InputQueue
 from imports import stream_output
 
 config: Dict = {
-    "input_pattern": "raw-video/sb*.MTS",
-    "output_template": "video/shed-b.mp4",
+    "input_pattern": "raw-video/done/candles-00005.mp4",
+    "output_template": "video/just-testing.mp4",
     "output_seconds": 60,
     "input_frames": 1,
     "image_blend": 0.2,
@@ -20,8 +20,15 @@ config: Dict = {
 }
 
 logger.initialise()
-stream_input = StreamInput(config["input_pattern"], logger.input_finished)
-stream_output.initialise(config, stream_input.attributes, logger.output_finished)
+stream_input = InputStream(
+    InputQueue(config["input_pattern"]),
+    logger.input_finished
+)
+stream_output.initialise(
+    config,
+    stream_input.attributes,
+    logger.output_finished
+)
 image.initialise(config, stream_input.attributes)
 while True:
     in_bytes = stream_input.read()
@@ -29,5 +36,4 @@ while True:
         break
     image.process(in_bytes, stream_output.write)
 stream_output.close()
-stream_input.close()
 image.clean_up()
