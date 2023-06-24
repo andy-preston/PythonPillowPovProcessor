@@ -19,7 +19,7 @@ input1 = InputStream(input_queue, finished_in)
 input2 = InputStream(input_queue, finished_in)
 stream_output.initialise(
     {
-        "output_template": "test-data/test.mp4",
+        "output_template": "video/test.mp4",
         "output_seconds": 60,
     },
     input1.attributes,  # We need to make sure both streams match!

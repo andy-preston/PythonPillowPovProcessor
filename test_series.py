@@ -16,7 +16,7 @@ def finished_out(filename: str):
 input_stream = InputStream(InputQueue("raw-video/dock*"), finished_in)
 stream_output.initialise(
     {
-        "output_template": "test-data/test.mp4",
+        "output_template": "test-data/video.mp4",
         "output_seconds": 60,
     },
     input_stream.attributes,
