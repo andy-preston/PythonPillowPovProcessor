@@ -5,18 +5,16 @@ import stream_input
 import stream_output
 
 config: Dict = {
-    "input_pattern": "raw-video/*.MTS",
-    "output_template": "video/scope.mp4",
+    "input_pattern": "raw-video/sb*.MTS",
+    "output_template": "video/shed-b.mp4",
     "output_seconds": 60,
-    "input_frames": 3,
+    "input_frames": 1,
     "image_blend": 0.2,
-    # TODO: this should be calculated from the image size
-    # but I'm doing it by trial and error at the moment
-    "scope_adjust": 20.0,
-    "rotation_increment": 0.08,
-    "scaler_steps": 1000,
-    "scaler_min": 1.5,
-    "scaler_max": 5.0,
+    "scope_adjust": 36.0,
+    "rotation_increment": 0.12,
+    "scaler_steps": 800,
+    "scaler_min": 1.0,
+    "scaler_max": 3.0,
     "scaler_start_pos": 3.0,
 }
 
