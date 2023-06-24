@@ -3,7 +3,7 @@
 DOCKER_DIR=$(dirname $(realpath $0))
 HOST_WORK_DIR=$(realpath ${DOCKER_DIR}/..)
 CONT_WORK_DIR="/usr/local/src"
-CONT_NAME="video-proc"
+CONT_NAME="pppp"
 RUN_NAME="run-${CONT_NAME}"
 
 if (docker ps | grep -q ${CONT_NAME})

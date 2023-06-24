@@ -1,8 +1,8 @@
 from typing import Dict
-import image
-import logger
-import stream_input
-import stream_output
+from imports import image as image
+from imports import logger as logger
+from imports import stream_input as stream_input
+from imports import stream_output as stream_output
 
 config: Dict = {
     "input_pattern": "raw-video/sb*.MTS",

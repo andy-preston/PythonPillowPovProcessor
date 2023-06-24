@@ -1,5 +1,5 @@
 from typing import Tuple, Dict, TextIO
-import scaler
+from imports import scaler as scaler
 import subprocess
 
 
@@ -22,7 +22,7 @@ def initialise(config: Dict, attributes: Dict[str, int]):
         "Antialias_Threshold=0.5",
         "Antialias_Depth=2",
         "Pause_when_Done=off",
-        "Input_File_Name=scope.pov",
+        "Input_File_Name=povray/scope.pov",
         "Output_File_name=tmp/scope.png",
         f"Width={attributes['width']}",
         f"Height={attributes['height']}",

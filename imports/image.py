@@ -1,6 +1,6 @@
 from PIL import Image
 from typing import Tuple, Dict, Callable
-import scope
+from imports import scope as scope
 
 
 _size: Tuple[int, int]
