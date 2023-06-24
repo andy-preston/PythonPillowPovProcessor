@@ -18,7 +18,10 @@ class InputQueue:
 
     def next(self) -> str:
         """Give the next filename in the list"""
-        return next(self._files)
+        try:
+            return next(self._files)
+        except StopIteration:
+            return ""
 
 
 class InputStream:
@@ -26,7 +29,6 @@ class InputStream:
 
     attributes: Dict[str, int]
     _process: subprocess.Popen
-    _buffer: bytes
     _finished: Callable
     _filename: str
     _input_queue: InputQueue
@@ -55,11 +57,7 @@ class InputStream:
             "frame_rate": int(info["r_frame_rate"].split("/")[0]),
         }
 
-    def _open(self):
-        self.close()
-        self._filename = self._input_queue.next()
-        if self._process is None:
-            self._probe_attributes()
+    def _open_pipe(self):
         args = (
             ffmpeg.input(self._filename)
             .output("pipe:", format="rawvideo", pix_fmt="rgb24")
@@ -67,16 +65,26 @@ class InputStream:
         )
         self._process = subprocess.Popen(args, stdout=subprocess.PIPE)
 
-    def read(self):
-        """Read the next frame from the current stream"""
-        self._buffer = self._process.stdout.read(self.attributes["buffer_size"])
-        if len(self._buffer) != 0:
-            return self._buffer
+    def _open(self) -> bool:
+        self.close()
+        self._filename = self._input_queue.next()
+        if self._filename == "":
+            return False
 
-        try:
-            self._open()
-        except StopIteration:
+        if self._process is None:
+            self._probe_attributes()
+        self._open_pipe()
+        return True
+
+    def read(self) -> bytes:
+        """Read the next frame from the current stream"""
+        buffer = self._process.stdout.read(self.attributes["buffer_size"])
+        if len(buffer) != 0:
+            return buffer
+
+        if not self._open():
             return b""
+
         # Recursion is a bit "terrifying" - but this should (SHOULD)
         # only ever go to 2 levels. Does Python have tail calls?
         return self.read()
@@ -86,7 +94,7 @@ class InputStream:
         if self._process is None:
             return
 
-        self._process.wait()
+        self._process.terminate()
 
         if self._finished is not None:
             self._finished(self._filename)

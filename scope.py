@@ -20,15 +20,8 @@ config: Dict = {
 }
 
 logger.initialise()
-stream_input = InputStream(
-    InputQueue(config["input_pattern"]),
-    logger.input_finished
-)
-stream_output.initialise(
-    config,
-    stream_input.attributes,
-    logger.output_finished
-)
+stream_input = InputStream(InputQueue(config["input_pattern"]), logger.input_finished)
+stream_output.initialise(config, stream_input.attributes, logger.output_finished)
 image.initialise(config, stream_input.attributes)
 while True:
     in_bytes = stream_input.read()
