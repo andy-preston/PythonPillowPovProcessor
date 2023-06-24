@@ -10,10 +10,12 @@ class InputQueue:
     """A list of files to be read by InputStream either in series or parallel"""
 
     _files: iter
+    number_of_streams: int
 
     def __init__(self, glob_pattern: str):
         file_list = glob.glob(glob_pattern)
         file_list.sort()
+        self.number_of_streams = len(file_list)
         self._files = iter(file_list)
 
     def next(self) -> str:
