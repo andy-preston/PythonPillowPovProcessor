@@ -1,17 +1,20 @@
-import stream_input
-import stream_output
+"""Simple test for the stream modules"""
+from imports.stream_input import StreamInput
+from imports import stream_output
 
 
 def finished_in(filename: str):
+    """dummy callback for the input stream finished event"""
     print(f"\n\n\nfinished input {filename}\n\n\n")
 
 
 def finished_out(filename: str):
+    """dummy callback for the output stream finished event"""
     print(f"\n\n\nfinished output {filename}\n\n\n")
 
 
 if __name__ == "__main__":
-    stream_input.initialise("raw-video/012*", finished_in)
+    stream_input = StreamInput("raw-video/s1*", finished_in)
     stream_output.initialise(
         {
             "output_template": "test-data/test.mp4",
