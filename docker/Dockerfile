@@ -12,10 +12,11 @@ RUN apt-get update && \
 
 RUN ln -s /etc/povray /.povray
 
-RUN pip install --upgrade \
-        pip && \
+RUN pip install --upgrade pip && \
     pip install --upgrade \
         git+https://github.com/psf/black \
+        pylint \
         Pillow \
+        numpy soundfile \
         ffmpeg-python && \
     rm -rf /usr/share/doc/*
