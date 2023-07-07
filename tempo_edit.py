@@ -2,7 +2,7 @@
 from typing import Dict
 from imports import logger
 from imports.stream_input import InputStream, InputQueue
-from imports import stream_output
+from imports.stream_output import OutputStream
 from imports.stream_chaser import StreamChaser
 from imports.audio_peak import AudioPeak
 
@@ -27,11 +27,11 @@ attributes = stream_chaser.first_stream().attributes
 audio_peak = AudioPeak(
     config["audio_track"], attributes["frame_rate"], config["audio_peak"]
 )
-stream_output.initialise(config, attributes, logger.output_finished)
+output_stream = OutputStream(config, attributes, logger.output_finished)
 while audio_peak.read():
     raw_bytes = stream_chaser.stream(audio_peak.peak()).read()
     if len(raw_bytes) == 0:
         break
-    stream_output.write(raw_bytes)
+    output_stream.write(raw_bytes)
 
-stream_output.close()
+output_stream.close()
