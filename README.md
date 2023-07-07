@@ -2,8 +2,8 @@
 
 Various bits and bobs of video processing code that I've had as single scripts
 for years and years and years (you can tell how old it is by the fact it uses
-Pov-Ray) brought together as an integrated script fro adding "special effects" to
-video.
+Pov-Ray) brought together as an integrated script fro adding "special effects"
+to video.
 
 It reads a bunch of input clips using ffmpeg and output it's results in
 arbitrary length clips again using ffmpeg.

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+black *.py imports/*.py
+pylint *.py imports/*.py

@@ -4,23 +4,26 @@ DOCKER_DIR=$(dirname $(realpath $0))
 HOST_WORK_DIR=$(realpath ${DOCKER_DIR}/..)
 CONT_WORK_DIR="/usr/local/src"
 CONT_NAME="pppp"
-RUN_NAME="run-${CONT_NAME}"
+RUN_NAME=${CONT_NAME}
+COMMAND=${@:-bash}
 
 if (docker ps | grep -q ${CONT_NAME})
 then
-    echo 'Container already running'
     docker container exec --interactive --tty \
         --workdir ${CONT_WORK_DIR} \
         ${RUN_NAME} \
-        bash
+        ${COMMAND}
 else
-    echo 'Starting new container'
-    docker build --progress plain --tag ${CONT_NAME} ${DOCKER_DIR}
+    if [ "${COMMAND}" == "build" ]
+    then
+        docker build --progress plain --tag ${CONT_NAME} ${DOCKER_DIR}
+        COMMAND=bash
+    fi
     docker run --rm --interactive --tty \
         --workdir ${CONT_WORK_DIR} \
         --user $(id -u):$(id -g) \
         --volume ${HOST_WORK_DIR}:${CONT_WORK_DIR} \
         --name ${RUN_NAME} \
         ${CONT_NAME} \
-        bash
+        ${COMMAND}
 fi

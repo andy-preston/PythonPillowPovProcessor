@@ -2,6 +2,7 @@ FROM python:3.11.1-bullseye
 
 ENV TERM=linux
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PYLINTHOME=/var/tmp
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y \
