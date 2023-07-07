@@ -1,6 +1,8 @@
 {
     "cSpell.words": [
+        "amax",
         "ametadata",
+        "amin",
         "astats",
         "autoremove",
         "dtype",
@@ -12,6 +14,7 @@
         "numpy",
         "povray",
         "pylint",
+        "PYLINTHOME",
         "rawvideo",
         "realpath",
         "rgbf",
@@ -20,5 +23,5 @@
         "tobytes",
         "tolist",
         "workdir"
-    ],
+    ]
 }

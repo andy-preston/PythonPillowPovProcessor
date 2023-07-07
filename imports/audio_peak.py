@@ -3,7 +3,6 @@
 from soundfile import SoundFile
 import numpy
 from numpy.typing import NDArray
-import ffmpeg
 
 
 class AudioPeak:
@@ -12,34 +11,35 @@ class AudioPeak:
     _samples_per_frame: int
     _audio: SoundFile
     _samples: NDArray
-    _peak: int
+    _peak: float
 
-    def __init__(self, filename: str, frames_per_second: int, peak: int):
+    def __init__(self, filename: str, frames_per_second: int, peak: float):
+        self._peak = peak
         self._audio = SoundFile(filename, "rb")
         self._samples_per_frame = int(self._audio.samplerate / frames_per_second)
-        self._peak = peak
 
     def peak(self) -> bool:
         """Detect peaks in current frame"""
-        for sample in self._samples:
-            for channel in sample:
-                if channel > self._peak:
-                    return True
-        return False
+        return (
+            max(abs(numpy.amin(self._samples)), numpy.amax(self._samples)) > self._peak
+        )
 
     def read(self) -> bool:
-        """Read the next frame from the current stream"""
-        self._samples = self._audio.read(
-            frames=self._samples_per_frame, always_2d=True, dtype="int16"
-        )
+        """Read the next frame from the stream"""
+        self._samples = self._audio.read(frames=self._samples_per_frame)
         return len(self._samples) > 0
 
 
-if __name__ == "__main__":
-    audioPeak = AudioPeak("test-data/stereo.wav", 25, 32000)
+def testing():
+    """simple testing during development"""
+    audio_peak = AudioPeak("test-data/mono.wav", 25, 0.9)
     count = 0
-    while audioPeak.read():
+    while audio_peak.read():
         count = count + 1
-        if audioPeak.peak():
+        if audio_peak.peak():
             print(f"{count} peak")
     print(count)
+
+
+if __name__ == "__main__":
+    testing()
