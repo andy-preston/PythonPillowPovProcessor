@@ -7,10 +7,11 @@ _fixed_options: Tuple
 _rotation: float
 _log_file: TextIO = None
 _config: Dict
+_scaler: Scaler
 
 
 def initialise(config: Dict, attributes: Dict[str, int]):
-    global _config, _fixed_options, _rotation, _log_file
+    global _config, _fixed_options, _rotation, _log_file, _scaler
     _config = config
     flat_scale_x: float = float(attributes["aspect_x"]) * _config["scope_adjust"]
     flat_scale_y: float = float(attributes["aspect_y"]) * _config["scope_adjust"]
@@ -29,7 +30,7 @@ def initialise(config: Dict, attributes: Dict[str, int]):
         f"Declare=flat_scale_x={flat_scale_x}",
         f"Declare=flat_scale_y={flat_scale_y}",
     )
-    scaler.initialise(config)
+    _scaler = Scaler(config)
     _rotation = 0.0
     _log_file = open("tmp/scope.log", "w")
 
@@ -39,7 +40,7 @@ def _variable_options():
     _rotation = _rotation + _config["rotation_increment"]
     if _rotation > 360.0:
         _rotation = _rotation - 360.0
-    scope_scale = scaler.scale()
+    scope_scale = _scaler.scale()
     return (
         f"Declare=scope_scale={scope_scale}",
         f"Declare=scope_rotation={_rotation}",
