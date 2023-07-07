@@ -1,7 +1,7 @@
 """module to provide ImageProcess class"""
 from typing import Tuple, Dict, Callable
 from PIL import Image
-from imports import scope
+from imports.scope import Scope
 
 
 class ImageProcess:
@@ -10,11 +10,12 @@ class ImageProcess:
     _size: Tuple[int, int]
     _overlay: Image
     _config: Dict
+    _scope: Scope
 
     def __init__(self, config: Dict, attributes: Dict[str, int]):
         self._config = config
         self._size = (attributes["width"], attributes["height"])
-        scope.initialise(config, attributes)
+        self._scope = Scope(config, attributes)
         self._overlay = Image.new("RGB", self._size, (0, 0, 0))
 
     def _blend_in(self, input_image: Image):
@@ -30,15 +31,15 @@ class ImageProcess:
         with Image.frombytes("RGB", self._size, in_raw) as incoming:
             incoming.save("tmp/flat.png")
         for _ in range(0, self._config["input_frames"]):
-            scope.render()
+            self._scope.render()
             scope_image: Image
             with Image.open("tmp/scope.png") as scope_image:
                 self._blend_in(scope_image)
             sink(self._overlay.tobytes())
 
     def clean_up(self):
-        """passthrough function to the make the scope module clean itself up"""
-        scope.clean_up()
+        """pass through function to the make the scope module clean itself up"""
+        self._scope.clean_up()
 
 
 def testing():
