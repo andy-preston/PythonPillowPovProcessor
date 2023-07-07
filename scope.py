@@ -1,7 +1,7 @@
 """Command line script to do the acid-kaleidoscope effect"""
 from typing import Dict
 from imports import image
-from imports import logger
+from imports.logger import Logger
 from imports.stream_input import InputStream, InputQueue
 from imports.stream_output import OutputStream
 
@@ -19,7 +19,7 @@ config: Dict = {
     "scaler_start_pos": 3.0,
 }
 
-logger.initialise()
+logger = Logger()
 stream_input = InputStream(InputQueue(config["input_pattern"]), logger.input_finished)
 output_stream = OutputStream(config, stream_input.attributes, logger.output_finished)
 image.initialise(config, stream_input.attributes)

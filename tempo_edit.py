@@ -1,6 +1,6 @@
 """Edit, switching from multiple input streams on the beat"""
 from typing import Dict
-from imports import logger
+from imports.logger import Logger
 from imports.stream_input import InputStream, InputQueue
 from imports.stream_output import OutputStream
 from imports.stream_chaser import StreamChaser
@@ -14,7 +14,7 @@ config: Dict = {
     "output_seconds": 60,
 }
 
-logger.initialise()
+logger = Logger()
 input_queue = InputQueue(config["input_pattern"])
 streams = list(
     map(
