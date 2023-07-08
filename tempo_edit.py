@@ -10,8 +10,9 @@ config: Dict = {
     "audio_track": "raw-video/side2-track2.wav",
     "audio_peak": 0.6,
     "input_pattern": "raw-video/edit-test*",
+    "input_skip": 50,
     "output_template": "video/edit.mp4",
-    "output_seconds": 60,
+    "output_seconds": 5 * 60,
 }
 
 logger = Logger()
@@ -24,6 +25,7 @@ streams = list(
 )
 stream_chaser = StreamChaser(streams)
 attributes = stream_chaser.first_stream().attributes
+stream_chaser.skip_frames(config["input_skip"])
 audio_peak = AudioPeak(
     config["audio_track"], attributes["frame_rate"], config["audio_peak"]
 )

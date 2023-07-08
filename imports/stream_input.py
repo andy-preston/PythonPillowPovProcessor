@@ -78,6 +78,11 @@ class InputStream:
         self._open_pipe()
         return True
 
+    def skip_frames(self, frames):
+        """read and discard a few frames of the stream"""
+        for _ in range(frames):
+            self.read()
+
     def read(self) -> bytes:
         """Read the next frame from the current stream"""
         buffer = self._process.stdout.read(self.attributes["buffer_size"])

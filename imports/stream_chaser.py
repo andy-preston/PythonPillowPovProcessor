@@ -17,6 +17,11 @@ class StreamChaser:
         """the first stream in the list, so you can get attributes and stuff"""
         return self._streams[0]
 
+    def skip_frames(self, frames: int):
+        """skip the first few frames of each stream"""
+        for stream in self._streams:
+            stream.skip_frames(frames)
+
     def stream(self, switch: bool) -> InputStream:
         """the stream we're expecting input from"""
         if switch:
