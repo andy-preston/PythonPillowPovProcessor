@@ -29,4 +29,3 @@ while True:
         break
     image_process.process(in_bytes, output_stream.write)
 output_stream.close()
-image_process.clean_up()

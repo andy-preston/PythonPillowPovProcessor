@@ -37,10 +37,6 @@ class ImageProcess:
                 self._blend_in(scope_image)
             sink(self._overlay.tobytes())
 
-    def clean_up(self):
-        """pass through function to the make the pov_scope module clean itself up"""
-        self._pov_scope.clean_up()
-
 
 def testing():
     """Basic test routine for ImageProcess"""
@@ -68,7 +64,6 @@ def testing():
         Image.frombytes("RGB", input_image.size, raw).save("test-data/test-out.jpg")
 
     image_process.process(input_image.tobytes(), sink)
-    image_process.clean_up()
 
 
 if __name__ == "__main__":

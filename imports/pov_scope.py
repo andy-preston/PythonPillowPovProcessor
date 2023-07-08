@@ -9,7 +9,6 @@ class PovScope:
 
     _fixed_options: Tuple
     _rotation: float
-    _log_file: TextIO = None
     _config: Dict
     _scaler: Scaler
 
@@ -34,7 +33,11 @@ class PovScope:
         )
         self._scaler = Scaler(config)
         self._rotation = 0.0
-        self._log_file = open("tmp/scope.log", "w", encoding="utf-8")
+        with self._log_file("w") as log_file:
+            log_file.write("")
+
+    def _log_file(self, mode: str):
+        return open("tmp/scope.log", mode, encoding="utf-8")
 
     def _variable_options(self):
         self._rotation = self._rotation + self._config["rotation_increment"]
@@ -46,13 +49,10 @@ class PovScope:
             f"Declare=scope_rotation={self._rotation}",
         )
 
-    def clean_up(self):
-        """close the log file before finishing"""
-        self._log_file.close()
-
     def render(self):
         """render a single frame"""
         file: TextIO
         with open("tmp/scope.ini", "w", encoding="utf-8") as file:
             file.write("\n".join(self._fixed_options + self._variable_options()) + "\n")
-        subprocess.run(["povray", "tmp/scope.ini"], stderr=self._log_file, check=True)
+        with self._log_file("a") as log_file:
+            subprocess.run(["povray", "tmp/scope.ini"], stderr=log_file, check=True)
