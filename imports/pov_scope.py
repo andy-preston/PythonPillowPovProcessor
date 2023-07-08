@@ -1,10 +1,10 @@
-"""Module to provide Scope class"""
+"""Module to provide PovScope class"""
 import subprocess
 from typing import Tuple, Dict, TextIO
 from scaler import Scaler
 
 
-class Scope:
+class PovScope:
     """Pov-Ray Kaleidoscope"""
 
     _fixed_options: Tuple

@@ -1,7 +1,7 @@
 """module to provide ImageProcess class"""
 from typing import Tuple, Dict, Callable
 from PIL import Image
-from scope import Scope
+from pov_scope import PovScope
 
 
 class ImageProcess:
@@ -10,12 +10,12 @@ class ImageProcess:
     _size: Tuple[int, int]
     _overlay: Image
     _config: Dict
-    _scope: Scope
+    _pov_scope: PovScope
 
     def __init__(self, config: Dict, attributes: Dict[str, int]):
         self._config = config
         self._size = (attributes["width"], attributes["height"])
-        self._scope = Scope(config, attributes)
+        self._pov_scope = PovScope(config, attributes)
         self._overlay = Image.new("RGB", self._size, (0, 0, 0))
 
     def _blend_in(self, input_image: Image):
@@ -31,20 +31,20 @@ class ImageProcess:
         with Image.frombytes("RGB", self._size, in_raw) as incoming:
             incoming.save("tmp/flat.png")
         for _ in range(0, self._config["input_frames"]):
-            self._scope.render()
+            self._pov_scope.render()
             scope_image: Image
             with Image.open("tmp/scope.png") as scope_image:
                 self._blend_in(scope_image)
             sink(self._overlay.tobytes())
 
     def clean_up(self):
-        """pass through function to the make the scope module clean itself up"""
-        self._scope.clean_up()
+        """pass through function to the make the pov_scope module clean itself up"""
+        self._pov_scope.clean_up()
 
 
 def testing():
     """Basic test routine for ImageProcess"""
-    input_image: Image = Image.open("test-data/test-in.jpg")
+    input_image: Image = Image.open("test-data/picture.jpg")
     test_config = {
         "input_frames": 1,
         "image_blend": 0.2,
@@ -53,6 +53,7 @@ def testing():
         "scaler_max": 5.0,
         "scaler_start_pos": 3.0,
         "rotation_increment": 0.08,
+        "scope_adjust": 1,
     }
     test_attributes = {
         "width": input_image.size[0],
