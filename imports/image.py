@@ -18,23 +18,24 @@ class ImageProcess:
         self._pov_scope = PovScope(config, attributes)
         self._overlay = Image.new("RGB", self._size, (0, 0, 0))
 
-    def _blend_in(self, input_image: Image):
-        blended: Image
-        with Image.blend(
-            self._overlay, input_image, self._config["image_blend"]
-        ) as blended:
-            self._overlay.paste(blended)
-
-    def process(self, in_raw: bytes, sink: Callable[[bytes], None]):
-        """blend the new 'scoped' image with the buffer and send it on to a sink"""
+    def _save_flat(self, in_raw: bytes):
         incoming: Image
         with Image.frombytes("RGB", self._size, in_raw) as incoming:
             incoming.save("tmp/flat.png")
+
+    def _blend_in(self):
+        with Image.open("tmp/scope.png") as scope_image:
+            with Image.blend(
+                self._overlay, scope_image, self._config["image_blend"]
+            ) as blended:
+                self._overlay.paste(blended)
+
+    def process(self, in_raw: bytes, sink: Callable[[bytes], None]):
+        """blend the new 'scoped' image with the buffer and send it on to a sink"""
+        self._save_flat(in_raw)
         for _ in range(0, self._config["input_frames"]):
             self._pov_scope.render()
-            scope_image: Image
-            with Image.open("tmp/scope.png") as scope_image:
-                self._blend_in(scope_image)
+            self._blend_in()
             sink(self._overlay.tobytes())
 
 
