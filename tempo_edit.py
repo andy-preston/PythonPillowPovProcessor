@@ -8,6 +8,7 @@ from audio_peak import AudioPeak
 
 config: Dict = {
     "audio_track": "raw-video/side2-track2.wav",
+    "audio_debounce": 2,
     "audio_peak": 0.6,
     "input_pattern": "raw-video/edit-test*",
     "input_skip": 50,
@@ -27,7 +28,10 @@ stream_chaser = StreamChaser(streams)
 attributes = stream_chaser.first_stream().attributes
 stream_chaser.skip_frames(config["input_skip"])
 audio_peak = AudioPeak(
-    config["audio_track"], attributes["frame_rate"], config["audio_peak"]
+    config["audio_track"],
+    attributes["frame_rate"],
+    config["audio_debounce"],
+    config["audio_peak"],
 )
 output_stream = OutputStream(config, attributes, logger.output_finished)
 while audio_peak.read():
