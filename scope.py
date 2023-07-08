@@ -1,9 +1,9 @@
 """Command line script to do the acid-kaleidoscope effect"""
 from typing import Dict
-from imports.image import ImageProcess
-from imports.logger import Logger
-from imports.stream_input import InputStream, InputQueue
-from imports.stream_output import OutputStream
+from image import ImageProcess
+from logger import Logger
+from stream_input import InputStream, InputQueue
+from stream_output import OutputStream
 
 config: Dict = {
     "input_pattern": "raw-video/done/candles-00005.mp4",

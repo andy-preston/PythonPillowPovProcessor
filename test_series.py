@@ -1,6 +1,6 @@
 """Test to process input streams into an output stream in series"""
-from imports.stream_input import InputStream, InputQueue
-from imports.stream_output import OutputStream
+from stream_input import InputStream, InputQueue
+from stream_output import OutputStream
 
 
 def finished_in(filename: str):

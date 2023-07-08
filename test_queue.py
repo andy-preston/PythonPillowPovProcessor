@@ -1,5 +1,5 @@
 """Test if input queue"""
-from imports.stream_input import InputQueue
+from stream_input import InputQueue
 
 
 input_queue = InputQueue("raw-video/dock*")

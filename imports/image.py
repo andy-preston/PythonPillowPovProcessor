@@ -1,7 +1,7 @@
 """module to provide ImageProcess class"""
 from typing import Tuple, Dict, Callable
 from PIL import Image
-from imports.scope import Scope
+from scope import Scope
 
 
 class ImageProcess:

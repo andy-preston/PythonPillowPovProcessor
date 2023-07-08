@@ -1,7 +1,7 @@
 """Module to provide Scope class"""
 import subprocess
 from typing import Tuple, Dict, TextIO
-from imports.scaler import Scaler
+from scaler import Scaler
 
 
 class Scope:

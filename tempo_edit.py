@@ -1,10 +1,10 @@
 """Edit, switching from multiple input streams on the beat"""
 from typing import Dict
-from imports.logger import Logger
-from imports.stream_input import InputStream, InputQueue
-from imports.stream_output import OutputStream
-from imports.stream_chaser import StreamChaser
-from imports.audio_peak import AudioPeak
+from logger import Logger
+from stream_input import InputStream, InputQueue
+from stream_output import OutputStream
+from stream_chaser import StreamChaser
+from audio_peak import AudioPeak
 
 config: Dict = {
     "audio_track": "raw-video/side2-track2.wav",

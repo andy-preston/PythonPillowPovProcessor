@@ -15,6 +15,7 @@
         "povray",
         "pylint",
         "PYLINTHOME",
+        "PYTHONPATH",
         "rawvideo",
         "realpath",
         "rgbf",

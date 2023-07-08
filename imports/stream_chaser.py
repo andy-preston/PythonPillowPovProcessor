@@ -1,6 +1,6 @@
 """"module that provides the StreamChaser class"""
 from typing import Tuple
-from imports.stream_input import InputStream
+from stream_input import InputStream
 
 
 class StreamChaser:
