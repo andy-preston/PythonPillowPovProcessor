@@ -2,3 +2,4 @@
 
 black *.py imports/*.py
 pylint *.py imports/*.py
+mypy  --check-untyped-defs *.py imports/*.py
