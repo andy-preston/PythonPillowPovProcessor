@@ -1,4 +1,5 @@
 """module to provide ImageProcess class"""
+
 from typing import Tuple, Dict, Callable
 from PIL import Image
 from pov_scope import PovScope

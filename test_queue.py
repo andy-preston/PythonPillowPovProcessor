@@ -1,4 +1,5 @@
 """Test if input queue"""
+
 from stream_input import InputQueue
 
 

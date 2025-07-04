@@ -1,4 +1,5 @@
 """Edit, switching from multiple input streams on the beat"""
+
 from typing import Dict
 from logger import Logger
 from stream_input import InputStream, InputQueue

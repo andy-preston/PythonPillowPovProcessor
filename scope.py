@@ -1,4 +1,5 @@
 """Command line script to do the acid-kaleidoscope effect"""
+
 from typing import Dict
 from image import ImageProcess
 from logger import Logger

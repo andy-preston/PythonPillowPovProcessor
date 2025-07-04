@@ -1,4 +1,5 @@
 """Test to process input streams into an output stream in parallel"""
+
 from stream_input import InputStream, InputQueue
 from stream_output import OutputStream
 

@@ -1,4 +1,5 @@
 """Module for stream output classes"""
+
 import subprocess
 from typing import Tuple, Dict, Callable
 import ffmpeg

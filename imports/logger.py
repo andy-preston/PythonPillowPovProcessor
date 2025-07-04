@@ -1,4 +1,5 @@
 """Module provides the Logger class"""
+
 from typing import List
 from pathlib import Path
 
